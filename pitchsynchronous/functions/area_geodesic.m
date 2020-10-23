@@ -1,18 +1,16 @@
 function [a_mat] = area_geodesic(left,right,n_steps,~)
-%performs the area interpolation of two LPC filters with n_steps
-%intermediate steps. If not specified an arcsin function regulating the speed of
-%the interpolation will be used.
+%Performs the tube area interpolation of two LPC filters with n_steps
+%intermediate steps.
+
 %Get area representation of filters
-if nargin < 4
-    fun = @(x) x;
-else
-    fun = @(x) 2/pi * asin(x);
-end
 left_area=poly2area(left);
 right_area = poly2area(right);
 
-k = ((0:n_steps-1)/(n_steps-1))';
-k_hat = fun(k);
+%Generate linearly spaced interpolation coefficients
+k_hat = ((0:n_steps-1)/(n_steps-1))';
+
+%Create interpolated areas
 area_mat =  (1-k_hat).*left_area + k_hat.*right_area;
+%Convert result to filters
 a_mat = area2poly(area_mat);
 end

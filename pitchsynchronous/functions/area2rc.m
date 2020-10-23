@@ -1,5 +1,5 @@
 function [rc] = area2rc(A)
-%calculates the reflection coefficients corresponding to the area tube
+%Calculates the reflection coefficients corresponding to the area tube
 %model desctribed by the vector A. Inverse of rc2area.
 A_len = size(A,2)-1;
 numA = size(A,1);
