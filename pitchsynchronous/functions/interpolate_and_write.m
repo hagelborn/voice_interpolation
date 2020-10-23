@@ -1,4 +1,7 @@
-function interpolate_and_write(left_path,left_name,right_path,right_name, k, method)
+function interpolate_and_write(left_path,left_name,right_path,right_name, k, interpolation_method,smoothing_method)
+    % create interpolations between signals and save the results. Specify
+    % the paths and filenames as well as the interpolation coefficient and
+    % methods for analysis and interpolation.
     left_str = [left_path,'/',left_name];
     right_str = [right_path,'/',right_name];
     left_pk_str = [left_path,'pk/',left_name];
@@ -8,23 +11,23 @@ function interpolate_and_write(left_path,left_name,right_path,right_name, k, met
     win_tol = 0.20; %window length for analysis
     lpc_order = 20; %order of prediction polynomial
     lifter_order = 15; %order of cepstral lifter coefficients.
-    disp('performing peak picking analysis on left signal')
+    disp('retreiving peaks in left signal')
     left_peaks = audioread(left_pk_str);
     left_peak_ind = find(left_peaks);
     l_mperiod = median(diff(left_peak_ind));
-    %pslpc
-    [left_F,left_env,l_samps] = ps_lpc(left_signal,left_peak_ind,fs,win_tol,lpc_order,lifter_order);
+    dips("Performing filter extraction on left signal")
+    [left_F,left_env,l_samps] = ps_lpc(left_signal,left_peak_ind,fs,win_tol,lpc_order,smoothing_method,lifter_order);
 
-    disp('performing peak picking analysis on right signal')
+    disp('retreiving peaks in right signal')
     right_peaks = audioread(right_pk_str);
     right_peak_ind = find(right_peaks);
     r_mperiod = median(diff(right_peak_ind));
-    %pslpc
-    [right_F,right_env,r_samps] = ps_lpc(right_signal,right_peak_ind,fs,win_tol,lpc_order,lifter_order);    
+    dips("Performing filter extraction on right signal")
+    [right_F,right_env,r_samps] = ps_lpc(right_signal,right_peak_ind,fs,win_tol,lpc_order,smoothing_method,lifter_order);    
 
     f_ratio = ((1/l_mperiod)^(1-k)* 1/r_mperiod^k)*l_mperiod;
     
-    str = char(method);
+    str = char(interpolation_method);
     switch lower(str)
         case 'lsf'
             [new_F] = lsf_interpolation(left_F,right_F,k);

@@ -1,5 +1,8 @@
 function [periods] = compute_periods(signal,win_len,min_period,max_period)
-%computes the periodicity in each window of a time domain signal.
+%Computes the frame wise periodicity of a signal by maximizing the
+%autocorrelation. Argument win_len specifies the the length of the frame
+% min_period and max_period specify the interval in which the
+% periodicity is sought.
 N = length(signal);
 n_frames = ceil(N/win_len);
 periods = zeros(n_frames,1);

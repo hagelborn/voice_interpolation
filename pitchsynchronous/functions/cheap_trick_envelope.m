@@ -1,5 +1,5 @@
 function [ce] = cheap_trick_envelope(signal,tau)
-%cheap trick envelope estimate.
+%Cheap trick spectral smoothing, tau is the estimated number of samples in each period.
 m = length(signal);
 N = nextpow2(m);
 dft_abs = abs(fft(signal,2^(N)));

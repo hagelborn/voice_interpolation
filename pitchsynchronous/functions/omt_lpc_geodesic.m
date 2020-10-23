@@ -1,5 +1,8 @@
 function [a_mat,interp_mat] = omt_lpc_geodesic(left,right,lpc_order,lifter_order,n_steps)
-% 
+% Create n_steps intermediate filters between the frames left and right.
+% The spectral smoothing of the frames are calculated using a rectangular lifter of
+% lifter_order. n_steps intermediate smoothed spectra are calculated and
+% their corresponding filter coefficients are estimated.
 left_npoints = length(left);
 right_npoints = length(right);
 

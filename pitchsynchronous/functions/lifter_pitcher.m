@@ -1,5 +1,5 @@
 function [lifter, pitcher] = lifter_pitcher(cepstrum,lifter_order)
-    % Divides cepstrum into lifter and "pitcher"(remaining information)
+    % Divides cepstrum into rectangular lifter and "pitcher"(remaining information)
     % based on lifter order
     lifter = cepstrum;
     pitcher = cepstrum;

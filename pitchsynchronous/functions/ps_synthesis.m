@@ -1,6 +1,6 @@
 function [interpolation] = ps_synthesis(signal,left_F,target_F,peaks,f_ratio)
 % changes pitch of the signal using psola to pick out the pitch peaks. The
-% short signal is then defiltered and the interpolated forman is added to the
+% short signal is then defiltered and the interpolated filters is added to the
 % resampled residual.
 
 %calculate the new median period of the signal

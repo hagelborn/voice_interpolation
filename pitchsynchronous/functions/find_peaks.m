@@ -1,5 +1,6 @@
 function [peaks] = find_peaks(signal,fs)
-max_hz = 1000;
+%find the peak in each period of the signal
+max_hz = 300;
 min_hz = 70;
 win_len = round(fs*0.04);
 max_change = 1.05;
@@ -11,10 +12,11 @@ max_period = floor(fs/min_hz);
 
 %compute pitch periodicity
 periods = compute_periods(signal, win_len, min_period, max_period);
-%avoid octave error restrict range
+%restrict range to avoid errors
 m_period = median(periods);
 max_period = round(1.05*m_period);
 min_period = round(0.95*m_period);
+%re estimate period based on mean
 periods = compute_periods(signal,win_len, min_period, max_period);
 [~,prev] = max(signal(1:periods(1)*1.1));
 peaks = zeros(N,1);

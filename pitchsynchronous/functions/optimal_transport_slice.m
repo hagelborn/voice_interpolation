@@ -1,5 +1,6 @@
 function [a] = optimal_transport_slice(left,right,k,n_left,n_right,lpc_order)
-%
+% Calculate the interpolated envelope between envelopes left and right and
+% estimate a corresponding lpc filter.
 left_sum = sum(left);
 right_sum = sum(right);
 

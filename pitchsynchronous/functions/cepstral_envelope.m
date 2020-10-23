@@ -1,5 +1,5 @@
 function [env,rest,l_psd] = cepstral_envelope(signal,lifter_order)
-%calculates the envelope of the psd by liftering the cepstrum, can also
+%calculates the envelope of the psd by rectangular liftering the cepstrum, can also
 %return the rest of the spectrum.
 m = length(signal);
 N = nextpow2(m);

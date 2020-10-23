@@ -4,7 +4,7 @@ function [new_F] = omt_interpolation(left_env,right_env,k,lpc_order,left_samp,ri
 [num_right,~] = size(right_env);
 half_len = env_len/2 +1;
 
-% assign a right index for each left.
+% repeat or delete right envelopes until there are the same number.
 ind = round((((0:(num_left-1))/(num_left-1))*(num_right-1))+1);
 
 new_F = zeros(num_left,lpc_order+1);

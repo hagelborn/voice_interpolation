@@ -6,6 +6,7 @@ function [interp_a] = lsf_interpolation(left_a,right_a,k)
 left_lsf = polymat2lsfmat(left_a);
 right_lsf = polymat2lsfmat(right_a);
 
+%repeat or delete filters untill there are the same number of filters.
 ind = round((0:(size(left_a,1)-1))*((size(right_a,1)-1)/(size(left_a,1)-1))+1);
 
 right_lsf_resampled = right_lsf(ind,:);

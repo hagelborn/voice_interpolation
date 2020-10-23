@@ -1,5 +1,5 @@
 function [lsf_mat] = polymat2lsfmat(poly_mat)
-%converts the filter polynomials to line spectral pairs.
+%Converts the filter coefficient to line spectral pairs.
 
 num_filters= size(poly_mat,1);
 len_filters = size(poly_mat,2);
