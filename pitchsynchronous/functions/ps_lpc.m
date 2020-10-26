@@ -1,12 +1,12 @@
 function [F_mat,env_mat,n_samps] = ps_lpc(signal,peaks,fs,win_tol,lpc_order,method,lifter_order)
-%returns the lpc filter matrix, F_mat, the envelope matrix, env_mat, and
-%the number of samples used in the estimation of each of the envelopes.
+% Returns the lpc filter matrix, F_mat, the envelope matrix, env_mat, and
+% the number of samples used in the estimation of each of the envelopes.
 
 n_peaks = numel(peaks);
 
 N = nextpow2(fs*win_tol);                
-env_mat =  zeros(n_peaks,2^(N));        %Matrix containing the envelopes
-F_mat = zeros(n_peaks,lpc_order+1);     %Matrix containing the filters
+env_mat =  zeros(n_peaks,2^(N));        % Matrix containing the envelopes
+F_mat = zeros(n_peaks,lpc_order+1);     % Matrix containing the filters
 samp_tol = round(fs*win_tol);   % number of samples in one frame
 %matrix containing start and end of window used to calculate F at a given
 %peak

@@ -1,6 +1,5 @@
 function [interp] = omt_geodesic(Pi,k)
-%UNTITLED4 Summary of this function goes here
-%   Detailed explanation goes here
+% Moves mass at interpolation factor k according to plan Pi
 interp = zeros(size(Pi,1),1);
 pang = 0;
 for i = 1:size(Pi,1)

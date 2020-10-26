@@ -1,5 +1,14 @@
 function envelope = te(x,tol,lifter_order,plotit)
 % Estimates true envelope by iterative cepstral liftering
+%
+% Inputs:
+% x: signal
+% tol: stopping criterion tolerace in dB, default 2
+% lifter_order: liftering order, default 20
+% plotit: if 1 script plots iterative process 
+% 
+% Output:
+% envelope: true envelope estimate [amplitude]
 if nargin < 2
     tol = 2;
     lifter_order = 20;

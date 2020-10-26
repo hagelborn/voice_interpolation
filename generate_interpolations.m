@@ -3,9 +3,10 @@
 % 
 
 % Params to specifiy
-method = 'area'; % valid choices: 'area', 'lsf', 'rc' , 'omt' 
-male_path = 'data/seconds/male';
-female_path = 'data/seconds/female';
+interp_method = 'area'; % valid choices: 'area', 'lsf', 'rc' , 'omt' 
+model_method = 'CT';     % valid choices: 'CT', 'TE', 'RL' for cheaptrick, true envelope and rectangular liftering respectively
+male_path = 'data/male';
+female_path = 'data/female';
 num_pairs = 1;            % Nbr Male-female pairs
 k_choice = [3, 5, 7]/10;  % Intepolation coefficients for each pair of interpolations, can be a vector
 
@@ -17,17 +18,17 @@ n_females = length(dir([female_path, '/*.wav']));
 males = datasample(1:n_males,num_pairs,'Replace',false);
 females = datasample(1:n_females,num_pairs,'Replace',false);
 
-save_path = ['data/',method,'_interpolation/'];
+save_path = ['data/',interp_method,'_interpolation/'];
 if ~exist(save_path, 'dir')
    mkdir(save_path);
 end
 for i = 1:num_pairs
 
     male_idx = males(i);
-    male_name = ['male',int2str(left_idx),'.wav'];
+    male_name = ['male',int2str(male_idx),'.wav'];
 
     female_idx = females(i);
-    female_name = ['female',int2str(right_idx),'.wav'];
+    female_name = ['female',int2str(female_idx),'.wav'];
     for w = 1:2
         if w == 1                       % Male 2 female
             left_path = male_path;
@@ -43,12 +44,12 @@ for i = 1:num_pairs
        % Loops over the interpolation coefficients to generate interpolations at different steps    
         for j = 1:length(k_choice)
             k = k_choice(j);
-            interpolate_and_write(left_path,left_name,right_path,right_name,k,method,save_path);
+            interpolate_and_write(left_path,left_name,right_path,right_name,k,interp_method,model_method,save_path);
         end
     end
 end
 
-function interpolate_and_write(left_path,left_name,right_path,right_name, k, method, save_path)
+function interpolate_and_write(left_path,left_name,right_path,right_name, k, interp_method, model_method, save_path)
     % Performs the interpolation
     left_str = [left_path,'/',left_name];
     right_str = [right_path,'/',right_name];
@@ -64,18 +65,18 @@ function interpolate_and_write(left_path,left_name,right_path,right_name, k, met
     left_peak_ind = find(left_peaks);
     l_mperiod = median(diff(left_peak_ind));
     %pslpc
-    [left_F,left_env,l_samps] = ps_lpc(left_signal,left_peak_ind,fs,win_tol,lpc_order,lifter_order);
+    [left_F,left_env,l_samps] = ps_lpc(left_signal,left_peak_ind,fs,win_tol,lpc_order,model_method,lifter_order);
 
     disp('performing peak picking analysis on right signal')
     right_peaks = find_peaks(right_signal,fs);
     right_peak_ind = find(right_peaks);
     r_mperiod = median(diff(right_peak_ind));
     %pslpc
-    [right_F,right_env,r_samps] = ps_lpc(right_signal,right_peak_ind,fs,win_tol,lpc_order,lifter_order);    
+    [right_F,right_env,r_samps] = ps_lpc(right_signal,right_peak_ind,fs,win_tol,lpc_order,model_method,lifter_order);    
 
     f_ratio = ((1/l_mperiod)^(1-k)* 1/r_mperiod^k)*l_mperiod;
     
-    str = char(method);
+    str = char(interp_method);
     switch lower(str)
         case 'lsf'
             [new_F] = lsf_interpolation(left_F,right_F,k);
